@@ -4,7 +4,6 @@ import (
 	"flag"
 
 	common "github.com/aspect-build/aspect-cli/gazelle/common"
-	"github.com/aspect-build/aspect-cli/gazelle/common/git"
 	"github.com/aspect-build/aspect-cli/gazelle/kotlin/kotlinconfig"
 	BazelLog "github.com/aspect-build/aspect-cli/pkg/logger"
 	jvm_javaconfig "github.com/bazel-contrib/rules_jvm/java/gazelle/javaconfig"
@@ -20,9 +19,6 @@ func (kt *kotlinLang) KnownDirectives() []string {
 	return []string{
 		kotlinconfig.Directive_KotlinExtension,
 		jvm_javaconfig.JavaMavenInstallFile,
-
-		// TODO: move to common
-		git.Directive_GitIgnore,
 	}
 }
 
@@ -46,9 +42,6 @@ func (kt *kotlinLang) Configure(c *config.Config, rel string, f *rule.File) {
 		cfg = parent.NewChild(rel)
 		cfgs[rel] = cfg
 	}
-
-	// Collect the ignore files for this package
-	git.ReadGitConfig(c, rel, f)
 
 	if f != nil {
 		for _, d := range f.Directives {
