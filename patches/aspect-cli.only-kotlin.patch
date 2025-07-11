@@ -1,58 +1,43 @@
-diff --git a/gazelle/common/treesitter/parser.go b/gazelle/common/treesitter/parser.go
-index 27e2bd59..82602c5d 100644
 --- a/gazelle/common/treesitter/parser.go
 +++ b/gazelle/common/treesitter/parser.go
-@@ -22,11 +22,11 @@ import (
- 	"log"
+@@ -23,13 +23,7 @@
  	"path"
+ 	"unsafe"
  
+-	golang "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/golang"
+-	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/java"
 -	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/json"
-+	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/json"
  	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/kotlin"
 -	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/starlark"
 -	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/tsx"
 -	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/typescript"
-+	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/starlark"
-+	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/tsx"
-+	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/typescript"
  	sitter "github.com/smacker/go-tree-sitter"
  )
  
-@@ -68,21 +68,7 @@ func (tree *treeAst) String() string {
+@@ -78,25 +72,7 @@
  }
  
- func toSitterLanguage(lang LanguageGrammar) *sitter.Language {
+ func toSitterLanguage(lang LanguageGrammar) unsafe.Pointer {
 -	switch lang {
+-	case Go:
+-		return golang.Language()
+-	case Java:
+-		return java.Language()
 -	case JSON:
--		return json.GetLanguage()
+-		return json.Language()
 -	case Kotlin:
--		return kotlin.GetLanguage()
+-		return kotlin.Language()
 -	case Starlark:
--		return starlark.GetLanguage()
+-		return starlark.Language()
 -	case Typescript:
--		return typescript.GetLanguage()
+-		return typescript.LanguageTypescript()
 -	case TypescriptX:
--		return tsx.GetLanguage()
+-		return tsx.LanguageTSX()
 -	}
 -
 -	log.Panicf("Unknown LanguageGrammar %q", lang)
 -	return nil
-+	return kotlin.GetLanguage()
++	return kotlin.Language()
  }
  
  func PathToLanguage(p string) LanguageGrammar {
-
---- a/gazelle/common/treesitter/BUILD.bazel
-+++ b/gazelle/common/treesitter/BUILD.bazel
-@@ -13,11 +13,7 @@
-     visibility = ["//visibility:public"],
-     deps = [
-         "//gazelle/common",
--        "//gazelle/common/treesitter/grammars/json",
-         "//gazelle/common/treesitter/grammars/kotlin",
--        "//gazelle/common/treesitter/grammars/starlark",
--        "//gazelle/common/treesitter/grammars/tsx",
--        "//gazelle/common/treesitter/grammars/typescript",
-         "//pkg/logger",
-         "@com_github_smacker_go_tree_sitter//:go-tree-sitter",
-     ],
