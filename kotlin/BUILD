@@ -19,7 +19,6 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_aspect_build_aspect_cli//gazelle/common",
-        "@com_github_aspect_build_aspect_cli//gazelle/common/git",
         "@com_github_aspect_build_aspect_cli//gazelle/kotlin/kotlinconfig",
         "@com_github_aspect_build_aspect_cli//gazelle/kotlin/parser",
         "@com_github_aspect_build_aspect_cli//pkg/logger",

@@ -11,20 +11,19 @@ bazel_dep(name = "bazel_skylib", version = "1.5.0")
 bazel_dep(name = "package_metadata", version = "0.0.3")
 
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
-go_sdk.download(version = "1.24.0")
+go_sdk.download(version = "1.24.1")
 
 go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
 go_deps.from_file(go_mod = "//:go.mod")
-
 go_deps.module_override(
     patches = ["//patches:go-tree-sitter-cc_library.patch"],
     path = "github.com/smacker/go-tree-sitter",
 )
-
 go_deps.module_override(
     patch_strip = 1,
     patches = [
         "//patches:aspect-cli.only-kotlin.patch",
+        "//patches:aspect-cli.only-kotlin-build.patch",
         "//patches:aspect-cli.cgo-binding.patch",
     ],
     path = "github.com/aspect-build/aspect-cli",
@@ -58,7 +57,6 @@ use_repo(
     "com_github_bazel_contrib_rules_jvm",
     "com_github_emirpasic_gods",
     "com_github_rs_zerolog",
-    "com_github_smacker_go_tree_sitter",
     "net_starlark_go",
 )
 
