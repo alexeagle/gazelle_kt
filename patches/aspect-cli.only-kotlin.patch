@@ -1,0 +1,58 @@
+diff --git a/gazelle/common/treesitter/parser.go b/gazelle/common/treesitter/parser.go
+index 27e2bd59..82602c5d 100644
+--- a/gazelle/common/treesitter/parser.go
++++ b/gazelle/common/treesitter/parser.go
+@@ -22,11 +22,11 @@ import (
+ 	"log"
+ 	"path"
+ 
+-	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/json"
++	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/json"
+ 	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/kotlin"
+-	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/starlark"
+-	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/tsx"
+-	"github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/typescript"
++	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/starlark"
++	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/tsx"
++	// "github.com/aspect-build/aspect-cli/gazelle/common/treesitter/grammars/typescript"
+ 	sitter "github.com/smacker/go-tree-sitter"
+ )
+ 
+@@ -68,21 +68,7 @@ func (tree *treeAst) String() string {
+ }
+ 
+ func toSitterLanguage(lang LanguageGrammar) *sitter.Language {
+-	switch lang {
+-	case JSON:
+-		return json.GetLanguage()
+-	case Kotlin:
+-		return kotlin.GetLanguage()
+-	case Starlark:
+-		return starlark.GetLanguage()
+-	case Typescript:
+-		return typescript.GetLanguage()
+-	case TypescriptX:
+-		return tsx.GetLanguage()
+-	}
+-
+-	log.Panicf("Unknown LanguageGrammar %q", lang)
+-	return nil
++	return kotlin.GetLanguage()
+ }
+ 
+ func PathToLanguage(p string) LanguageGrammar {
+
+--- a/gazelle/common/treesitter/BUILD.bazel
++++ b/gazelle/common/treesitter/BUILD.bazel
+@@ -13,11 +13,7 @@
+     visibility = ["//visibility:public"],
+     deps = [
+         "//gazelle/common",
+-        "//gazelle/common/treesitter/grammars/json",
+         "//gazelle/common/treesitter/grammars/kotlin",
+-        "//gazelle/common/treesitter/grammars/starlark",
+-        "//gazelle/common/treesitter/grammars/tsx",
+-        "//gazelle/common/treesitter/grammars/typescript",
+         "//pkg/logger",
+         "@com_github_smacker_go_tree_sitter//:go-tree-sitter",
+     ],
