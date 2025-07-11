@@ -1,0 +1,7 @@
+# See https://docs.aspect.build/v/workflows/config
+workspaces:
+  - .
+tasks:
+  - test:
+notifications:
+  github: {}
